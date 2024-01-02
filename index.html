@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>testmap(豊島区03-1)</title>
+<meta name="viewport" content="width=device-width">
+   <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+   <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' /></script>
+<style>
+    body{ margin: 0; padding: 0; overflow: hidden;}
+    #map{ position:absolute; top: 20px; left: 0; right: 0; bottom: 0; width: 100%; height: 100%;}
+</style>
+
+<script type="text/javascript">
+function SelectPage(page){
+ var elementPage1 = document.getElementById("page1");
+ var elementPage2 = document.getElementById("page2");
+
+ switch(page) {
+  case 1:
+  elementPage1.style.display ='block';
+  elementPage2.style.display ='none';
+  break;
+
+  case 2:
+  elementPage1.style.display ='none';
+  elementPage2.style.display ='block';
+  break;
+ }
+}
+
+</script>
+
+</head>
+<body>
+
+<input type='button' value='マップを表示' onclick="SelectPage(1);"> 
+<input type='button' value='危険箇所を共有' onclick="SelectPage(2);">
+
+<div id="page1" class="page1">
+  <style>
+
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+#fly0 {
+display: inline-block;
+position: relative;
+width: 50px;
+height: 50px;
+top: 380px;
+left: 228px;
+background-color:#127; 
+border-width: 0px;
+border-radius: 20%;
+font-weight: bold;
+color: white;
+touch-action: none;
+}
+
+#fly1 {
+display: inline-block;
+position: relative;
+width: 50px;
+height: 50px;
+top: 380px;
+left: 228px;
+background-color:#127; 
+border-width: 0px;
+border-radius: 20%;
+font-weight: bold;
+color: white;
+touch-action: none;
+}
+
+#fly2 {
+display: inline-block;
+position: relative;
+width: 50px;
+height: 50px;
+top: 380px;
+left: 228px;
+background-color: #127;
+border-width: 0px;
+border-radius: 20%;
+font-weight: bold;
+color: white;
+touch-action: none;
+}
+
+#fly3 {
+display: inline-block;
+position: relative;
+width: 120px;
+height: 40px;
+top: 320px;
+left: 99px;
+background-color: #f00;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: white;
+touch-action: none;
+}
+
+#fly3.disabled {
+  background-color: transparent; color: transparent;
+}
+
+#fly4 {
+display: none;
+position: relative;
+width: 120px;
+height: 40px;
+top: 275px;
+left: 265px;
+background-color: #00c;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: white;
+touch-action: none;
+}
+
+#toggle1 {
+display: inline-block;
+position: relative;
+width: 40px;
+height: 40px;
+top: 440px; 
+left: -120px;
+background-color: #a3b;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: black;
+touch-action: none;
+}
+
+#toggle2 {
+display: inline-block;
+position: relative;
+width: 40px;
+height: 40px;
+top: 440px;
+left: -120px;
+background-color: #f08;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: black;
+touch-action: none;
+}
+
+#toggle3 {
+display: inline-block;
+position: relative;
+width: 40px;
+height: 40px;
+top: 440px;
+left: -120px;
+background-color: #d53;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: black;
+touch-action: none;
+}
+
+
+#toggle4 {
+display: inline-block;
+position: relative;
+width: 40px;
+height: 40px;
+top: 395px;
+left: 299px;
+background-color: #ff0;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: black;
+touch-action: none;
+}
+
+#toggle5 {
+display: inline-block;
+position: relative;
+width: 40px;
+height: 40px;
+top: 395px;
+left: 300px;
+background-color: #7f0;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: black;
+touch-action: none;
+}
+
+#pic-human {
+background-image: 
+url('https://pictogram2.com/p/p0396/2.png');
+background-size: cover;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+cursor: pointer;
+}
+
+#information {
+ display: inline-block;
+ position: relative;
+ width: 400px;
+ height: 100px;
+top: 30px;
+left: 10px;
+background-color: white;
+border-width: 0px;
+border-radius: 10%;
+font-weight: bold;
+color: black;
+touch-action: none;
+ }
+
+#instruction {
+   position: absolute;
+   width: 250px;
+   height: 100px;
+   top: 570px;
+   left: 120px;
+ }
+
+  .text-image {position: relative; display: flex; width: 250px; height: 150px; top: 20px; left: 20px; touch-action: none;}
+
+  .text-image img {position: absolute; display: none; top: 400px; left: 0; width: 100%; height: auto;}
+
+  .text-image .background {display: none; top: 587px; left: 20px; width: 140%;}
+  
+  .text-image .picture {display: none; width: 120px; height: 120px; top: 565px; left: 0px;}
+  
+  .text-image p {display: none; position: absolute; top: 36%; left: 58%; font-size: 20px; font-weight: bold; font-family: Meiryo; color: black;}
+
+</style>
+<div id='map'></div>
+<div class = "gui">
+<div class="text-image">
+<img
+src="https://lh3.googleusercontent.com/pw/ADCreHfAtEZdQIsxtqJa6AX1WKdIuwOqyHAkZNbo0l7cBUtsqMnfFZdc_OSFYdNX_xrnwGxxPV7vI0fp0R0O0pGt_mJcDXa8r58MbY6lUc0u_LGgfhW1_wJS0fLLT9bdT8Fd6lZESEtpdDo36MWwCzAj7BxUHQ=w828-h196-s-no-gm?authuser=0" alt=""class="background">
+<img id="picture" 
+src="https://lh3.googleusercontent.com/pw/ADCreHdyKmML71picQGSU5xiHGbz2GuKhV0JxotE4hs2pSwIYS30RkVwh_4a9eiEZ2q3xDulTTFfVFDtaSsXl0Ylj1SXL7tpvGUF581zdoo9M_wEzM_5GUpnLydT15mRoP0LUNFDc4hLB0YsQiH7sxdSfpPLuw=w657-h657-s-no-gm?authuser=0" alt="" class="picture">
+
+<p id="instruction">指示が表示されます<br>直進してください</p>
+</div>
+<br>
+<button id="fly0">←</button>
+<button id="fly1">↑</button>
+<button id="fly2">→</button>
+<button id="fly3">ゲームスタート</button>
+<button id="fly4">最初の画面に戻る</button>
+<button id="toggle1">1</button>
+<button id="toggle2">2</button>
+<button id="toggle3">3</button>
+<button id="toggle4">4</button>
+<button id="toggle5">5</button>
+</div>
+
+<script>
+  const start=[ 139.6805253619494, 35.737895933815345 ];
+  const corner0=[ 139.68028832034773, 35.73796280748754 ];
+  const corner1=[139.68012155646102, 35.73796133834053];
+  const corner2=[ 139.6798835015439, 35.73797821014725 ];
+  const corner3=[ 139.67861528007646, 35.73785498878613 ];
+  const goal=[ 139.6781392, 35.7378164 ];
+
+  const corner1right=[ 139.6802756697169, 35.73859944827434 ];
+  const corner1left=[ 139.68003538248237, 35.73753482234227 ];
+  const corner2right=[ 139.67982080576527, 35.73849711766467 ];
+  const corner2left=[139.67984080117822,35.7375221675252];
+  const corner3right=[139.67857270654326,35.738302928740026];
+  const corner3left=[139.6786530781851,35.737438832082454];
+
+  const no1 = 
+'https://lh3.googleusercontent.com/pw/ADCreHdf3VR2e4CBxyyeVDf8Q0m6KpKSHw0oZy8d6yQ5c4vybcZiiCV1fHYDKvE5m7h4z3jYLvqHAm9lDig_qJEH-RY5px0xGpzBsuV2F6sXy2XkUwwtN-4Ihmyvr1RllsDdgsN_F3A2FetXTpQ74pKKCqgRgQ=w657-h657-s-no-gm?authuser=0'
+  const no2 = 
+'https://lh3.googleusercontent.com/pw/ADCreHddpt92Che3ZdyOzbxeK370BewVcTa322XeErCeOgtIg2jnyFZ3geNIcfpv_8rbZvIrE9hvgLTEzfK4-DS9RkI3ppeHHmhssQpgPh7hqpz_TGZSa793rTFMzTXOqs_Y7SSz93chZi_uYCa4X64JyrrrRA=w657-h657-s-no-gm?authuser=0'
+  const no3 = 
+'https://lh3.googleusercontent.com/pw/ADCreHdOvlAQutmp0w-tqgGn75PlXBpMN33sbo-6sjR9E0ezqqsqaspEsYrUuP3n3ytfISV_FL8CbyjvahXF3LLo946DMxeBSP1tJZPsYyada6-GY77wg13WNUFoO6x7tbWXvSdbkBHLoYZ5HM-v-sz2G2yF3Q=w657-h657-s-no-gm?authuser=0'
+  const no4 = 
+'https://lh3.googleusercontent.com/pw/ADCreHdB8ddRw_erPZ2ws8eeNXqA6bXPU8iKUFnja5TqwZa7XtGnwO0FbsboxNEnjmbU0UuE6XTlBjvNE1j-_sZIYET25KWE9hUwltuQqlrBa6LX8ACQHVqu2hV2VscnOML4DM8VrW8_nTU4R34IjtwsDyv6vg=w657-h657-s-no-gm?authuser=0'
+  const no5 = 
+'https://lh3.googleusercontent.com/pw/ADCreHco6-ch6SCMDPqhu5Iyvs2u1yw_UZvMztjFPDu9B9hi8uBZ8IbbuQWQxLmbbF-f4tFHUIK_CeCq2J5tlWbwciReN3SWAL-0CBEzjpLMVUJrAlZt9uD6iDhNY3U6NzbpyJ-AQDTx4GbsCNQBWyCqoQSkTw=w657-h657-s-no-gm?authuser=0'
+  const no6 = 
+'https://lh3.googleusercontent.com/pw/ADCreHedtpXTj02XrUtzwYx27BchDQkmemyMlx6vqY0H0Uw7BVw_3OBHEkXd8ao3eiNrlTGccac74ye6cR5Op7Vtm0zYXR86v4nl80GpFYY-N8vP8ljuV4sjQu7NGqwxRC-tVn4QTfSHMxUcOqUvAeT4__zt5A=w657-h657-s-no-gm?authuser=0'
+  const no7 = 
+'https://lh3.googleusercontent.com/pw/ADCreHc6Ro9FXoIDvY0_WyCV34pn36Gh-jBSLB2-bbDWAfifCu6tcWm8yNEdzjIXbdFaGtxhf2gQGnvEzgHsU1gg8QXDdM1nQHaQUVvawi99KclKp4Of5Ji7ZwZ6Nwq1iasHLT6Xwg7T2gwMTxViLxTiAuM4vw=w657-h657-s-no-gm?authuser=0'
+  const no8 = 
+'https://lh3.googleusercontent.com/pw/ADCreHeZOrk2mZpVWZ5H9TU6Fb_Gw3XEg5tj9le0miNX4CPZ3pOIQ_gtZgDliLvJqYB5PleqrY0jhN2pv1fO2Y3PcoF2WCbskG8od7rV-Jlvb8Ua0lgSGTbQULkTUNDEtEaJzgvT6mChWJON6IsasVxJhwW-RA=w657-h657-s-no-gm?authuser=0'
+  const no9 = 
+'https://lh3.googleusercontent.com/pw/ADCreHe_EBGCCRziWdRtmvtd9EavVnC_s5bm4ULFns1sNaG3nxrTVQxdYj4C2wOBzV_i2hMcBD_wr8B-_aF671Arz5WEVRIPhuSSTzFAcc0GM4_RUqMk02DjeoSu-Y93N4DfOcFRWWr2sdvh5F33Unx5kxK4zA=w657-h657-s-no-gm?authuser=0'
+  const no10 = 
+'https://lh3.googleusercontent.com/pw/ADCreHfg4u3aGXO3bVhfBhi5o-v168gDoZnFpXbOQbvBgVKQ0c_J6pixRKz_RuKAYco8TQodgCI11cefEUfMzv4X9Vvu4gSvKintqY8_Y_i7WqUM5qHyhl8v1h4dpcBtU7K9l_N6M3du6VwF27NF8xwijkrjPg=w657-h657-s-no-gm?authuser=0'
+  const no11 = 
+'https://lh3.googleusercontent.com/pw/ADCreHffDnkHRBk7yXrnsgm1BXvpuh1CNudggvrCdsx29AL1oVZZL20ieaXFarct6uHdt8R9KHFEWFxXLTCtXM92fB7PkUhP9zUdq-XKrZ44nnDlrhNXRRLwjSKyis8sntX_2wvEXJjIF8aVHUfmi1T61yqNlA=w657-h657-s-no-gm?authuser=0'
+  const no12 = 
+'https://lh3.googleusercontent.com/pw/ADCreHfxPJM5g7Z8gnpxPVZD8VYL8dXtlmbsDlYk37kZevNblkDLoEvlGzRHvj-6i6cK6lPNMaPoUhUtFmYCg711CVGc4lNsNIHFh1FMcauFFlPsto9Jea6sfa2xO69LsyoPkbjLV4KHJ24HR1Ihsa7LIQ2HJQ=w657-h657-s-no-gm?authuser=0'
+  const no13 = 
+'https://lh3.googleusercontent.com/pw/ADCreHd-Mmt2FwAqd5Pdhfj9bGD9d5vp1TUXtibGQLgar3aY48GFePoQraEnJUMJschUo7atZYRitPcWljlRCrATzYcd3uV9KyqzWr8Gp7w_wMsrx_8Bs-00LC57zv5bFAbeyq-YaF9UqI7O1us6T0N-wBHMug=w657-h657-s-no-gm?authuser=0'
+  const no14 = 
+'https://lh3.googleusercontent.com/pw/ADCreHd5RklLBa7Vf0UuXltLbT-8uolXaPaO7LHPt0mP2Un3_6mEygXo1j6AAOK3VShJF81HVo3s44tvmlfsiPTc_1D-Yyt5eBB7Hb5CSXUrp1m5TRFVb4KcLvHwi3u1m9pHBw_PsIDzA4c3qWyXNCuV2okhzQ=w657-h657-s-no-gm?authuser=0'
+  const no15 = 
+'https://lh3.googleusercontent.com/pw/ADCreHc7dB59-ILyrBHQ9-jghUHAbu0H2kgZR3DupjeW6JI5OimILEMCDUUg1QoRNAFU9OsN4flkqen-Z9dau_1Z6VpoX2l2H-XMdKCDpO4rzEg3Z4ftuf0M0WjzTbKMbCxX-dN3ZrezyKXaN4qMPDWTAz4Kkg=w657-h657-s-no-gm?authuser=0'
+  const no16 = 
+'https://lh3.googleusercontent.com/pw/ADCreHdB1ejsy7_4ZYDCswhHi3_2HPa3-yIdzeG9Q9TK6K8SvTvBVUxF1F6fUEMnjDNidC3hBM5rYBg2Kb_Bn-vgyY5MkCGqgrwCU7clHrQDcfqvtfVKit0Hnklzekp2OSWjXV4S4fjBGeqjnqHP6Vg3cR1MMw=w657-h657-s-no-gm?authuser=0'
+  const no17 = 
+'https://lh3.googleusercontent.com/pw/ADCreHeph5Q136VhhIkvTKUZn5ktEQwKcwz1TutWs463nWEVl9pOlaqB_kGOkB_uWI90TiEAMW9v7NOOp34rR6aZXXj3po11nkJuUGd2f6mwq9aB7iALG7YfFfaUAXyAjwWyIZdX-N0W7UyZ3ijV0Lvqa_lflw=w657-h657-s-no-gm?authuser=0'
+  const pictochaku =
+'https://lh3.googleusercontent.com/pw/ADCreHcKC9RY33nGA916VjYkshaEeubNdX45KIl_gp6WDCVXW7cBzAcBgORlP0kV7OzUr_SGDeaxjrj7CRCvUbBCvJIXRRDJqwgDM7w6Ewhum8cF0FON0auLAaw3GzI4U94p3iZWWExcvGl_uikkQ9PiHX_zOg=w657-h657-s-no-gm?authuser=0'
+  const pickiken =
+'https://lh3.googleusercontent.com/pw/ADCreHdyKmML71picQGSU5xiHGbz2GuKhV0JxotE4hs2pSwIYS30RkVwh_4a9eiEZ2q3xDulTTFfVFDtaSsXl0Ylj1SXL7tpvGUF581zdoo9M_wEzM_5GUpnLydT15mRoP0LUNFDc4hLB0YsQiH7sxdSfpPLuw=w657-h657-s-no-gm?authuser=0'
+  const picstartpoint = document.getElementById('pic-human');
+  const fly2Button = document.getElementById('fly2');
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoibW1rMTEyOTExIiwiYSI6ImNsajN0YTZmdjFjY2EzZnAzZG9mN2ptcXIifQ.d57212EFYBC_yZcSh4Ay0g';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mmk112911/clj9b38gj002g01rgdzi006wf',
+    center:[ 139.679332281, 35.7378561669 ],
+    zoom:16.2
+  });
+
+//建物を3Dに
+map.on('load', () => {
+const layers = map.getStyle().layers;
+const labelLayerId = layers.find(
+(layer) => layer.type === 'symbol' && layer.layout['text-field']
+).id;
+
+map.addLayer({
+'id': 'add-3d-buildings',
+'source': 'composite',
+'source-layer': 'building',
+'filter': ['==', 'extrude', 'true'],
+'type': 'fill-extrusion',
+'minzoom': 15,
+'paint': {
+'fill-extrusion-color': '#aaa',
+
+'fill-extrusion-height': [
+'interpolate',
+['linear'],
+['zoom'],
+15,
+0,
+15.05,
+['get', 'height']
+],
+'fill-extrusion-base': [
+'interpolate',
+['linear'],
+['zoom'],
+15,
+0,
+15.05,
+['get', 'min_height']
+],
+'fill-extrusion-opacity': 0.6
+}
+},
+labelLayerId
+);
+});
+
+//violetルート1
+map.on('load',() => {
+ map.addSource('route1',{
+    'type': 'geojson',
+    'data':{
+ 'type': 'Feature',
+  'geometry': { 
+   'type': 'LineString',
+   'coordinates': [ [ 139.6805253619494,35.737895933815345 ], [ 139.68026, 35.73797 ], [ 139.68015, 35.73798 ], [ 139.6801, 35.73798 ], [ 139.67991, 35.73799 ], [ 139.67987, 35.73799 ], [ 139.67985, 35.73799 ], [ 139.67972, 35.73797 ], [ 139.67966, 35.73796 ], [ 139.67962, 35.73796 ], [ 139.6795, 35.73794 ], [ 139.67941, 35.73793 ], [ 139.67909, 35.7379 ], [ 139.67894, 35.73789 ], [ 139.67887, 35.73788 ], [ 139.67868, 35.73787 ], [ 139.67863, 35.73787 ], [ 139.6786, 35.73786 ], [ 139.67818, 35.73785 ], [ 139.6781392, 35.7378164 ] ]
+}
+}
+});
+map.addLayer({
+  'id': 'route1',
+  'type': 'line',
+  'source': 'route1',
+  'layout': {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  'paint':{
+    'line-color': '#a3b',
+    'line-width': 7,
+    'line-opacity':0.7
+  }
+});
+});
+
+const toggleButton1 =document.getElementById('toggle1');
+ toggleButton1.addEventListener('click',function(){
+  const route1Layer = map.getLayer('route1');
+  if(route1Layer){
+    const visibility = map.getLayoutProperty('route1', 'visibility');
+  if(visibility ==='visible'){ map.setLayoutProperty('route1', 'visibility', 'none'); }
+  else{ map.setLayoutProperty('route1', 'visibility', 'visible'); }}
+ });
+
+//pinkルート2
+map.on('load',() => {
+ map.addSource('route2',{
+    'type': 'geojson',
+    'data':{
+ 'type': 'Feature',
+  'geometry': { 
+   'type': 'LineString',
+   'coordinates': [ [ 139.6805253619494,35.737895933815345 ], [ 139.68039, 35.73792 ], [ 139.68032, 35.73793 ], [ 139.6803165, 35.7379273 ],[ 139.6801185309564, 35.73796154296895 ], [ 139.68006, 35.7375 ], [ 139.67987, 35.73753 ], [ 139.6798737, 35.7375299 ], [ 139.67982, 35.73753 ], [ 139.67976, 35.73753 ], [ 139.67951, 35.73751 ], [ 139.6795, 35.73751 ], [ 139.67943, 35.7375 ], [ 139.67928, 35.73749 ], [ 139.67915, 35.73748 ], [ 139.67909, 35.73747 ], [ 139.67867, 35.73746 ], [ 139.6786717, 35.7374554 ], [ 139.67864, 35.73783 ], [ 139.678637400000014, 35.7378347 ], [ 139.6786, 35.73783 ], [ 139.67818, 35.73782 ], [ 139.67814, 35.73782 ], [ 139.6781392, 35.7378164 ] ]
+}
+}
+});
+map.addLayer({
+  'id': 'route2',
+  'type': 'line',
+  'source': 'route2',
+  'layout': {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  'paint':{
+    'line-color': '#f08',
+    'line-width': 7,
+    'line-opacity':0.7
+  }
+});
+});
+
+const toggleButton2 =document.getElementById('toggle2');
+ toggleButton2.addEventListener('click',function(){
+  const route2Layer = map.getLayer('route2');
+  if(route2Layer){
+    const visibility = map.getLayoutProperty('route2', 'visibility');
+  if(visibility ==='visible'){
+    map.setLayoutProperty('route2', 'visibility', 'none');
+  }else{
+    map.setLayoutProperty('route2', 'visibility', 'visible');
+  }}
+ });
+
+//orangeルート3
+map.on('load',() => {
+ map.addSource('route3',{
+    'type': 'geojson',
+    'data':{
+ 'type': 'Feature',
+  'geometry': { 
+   'type': 'LineString',
+   'coordinates': [ [ 139.6805253619494,35.737895933815345 ], [ 139.68038970076628, 35.73794431707586 ], [ 139.68029822183223, 35.737953372339994 ], [ 139.68026252273603, 35.73796242760313 ], [ 139.67988321983884,35.73797510496978 ], [ 139.67981851512099, 35.73849849735355 ], [ 139.6785757403077, 35.738306526845435 ], [ 139.67861590179095, 35.737859197549184 ], [ 139.6781392, 35.7378164 ] ]
+}
+}
+});
+map.addLayer({
+  'id': 'route3',
+  'type': 'line',
+  'source': 'route3',
+  'layout': {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  'paint':{
+    'line-color': '#d53',
+    'line-width': 7,
+    'line-opacity':0.7
+  }
+});
+});
+
+const toggleButton3 =document.getElementById('toggle3');
+ toggleButton3.addEventListener('click',function(){
+  const route3Layer = map.getLayer('route3');
+  if(route3Layer){
+    const visibility = map.getLayoutProperty('route3', 'visibility');
+  if(visibility ==='visible'){
+    map.setLayoutProperty('route3', 'visibility', 'none');
+  }else{
+    map.setLayoutProperty('route3', 'visibility', 'visible');
+  }}
+ });
+
+//yellowルート4
+map.on('load',() => {
+ map.addSource('route4',{
+    'type': 'geojson',
+    'data':{
+ 'type': 'Feature',
+  'geometry': { 
+   'type': 'LineString',
+   'coordinates': [ [ 139.6805253619494,35.737895933815345 ], [ 139.68039371605047,35.7379408963876 ], [ 139.68028563236217,35.73796097943135 ], [ 139.68026887734695,35.73860514605547 ], [ 139.67981756806674,35.73849677533325 ], [ 139.67857270654326,35.738302928740026 ], [ 139.67814960409305, 35.738258664492044 ], [ 139.6781392, 35.7378164 ] ]
+}
+}
+});
+map.addLayer({
+  'id': 'route4',
+  'type': 'line',
+  'source': 'route4',
+  'layout': {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  'paint':{
+    'line-color': '#ff0',
+    'line-width': 7,
+    'line-opacity':0.7
+  }
+});
+});
+
+const toggleButton4 =document.getElementById('toggle4');
+ toggleButton4.addEventListener('click',function(){
+  const route4Layer = map.getLayer('route4');
+  if(route4Layer){
+    const visibility = map.getLayoutProperty('route4', 'visibility');
+  if(visibility ==='visible'){
+    map.setLayoutProperty('route4', 'visibility', 'none');
+  }else{
+    map.setLayoutProperty('route4', 'visibility', 'visible');
+  }}
+ });
+
+//lightgreenルート5
+map.on('load',() => {
+ map.addSource('route5',{
+    'type': 'geojson',
+    'data':{
+ 'type': 'Feature',
+  'geometry': { 
+   'type': 'LineString',
+   'coordinates': [ [ 139.6805253619494,35.737895933815345 ], [ 139.68039330236815,35.73793454142093 ], [ 139.68027423356142,35.73795814146093 ], [ 139.67988307607362,35.7379731578167 ], [ 139.67984080117822,35.73752216752523 ], [ 139.6786530781851,35.737438832082454 ], [ 139.6781598712065,35.737415955671516 ], [ 139.6781392, 35.7378164 ] ]
+}
+}
+});
+map.addLayer({
+  'id': 'route5',
+  'type': 'line',
+  'source': 'route5',
+  'layout': {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  'paint':{
+    'line-color': '#7f0',
+    'line-width': 7,
+    'line-opacity':0.7 
+  }
+});
+});
+
+const toggleButton5 =document.getElementById('toggle5');
+ toggleButton5.addEventListener('click',function(){
+  const route5Layer = map.getLayer('route5');
+  if(route5Layer){
+    const visibility = map.getLayoutProperty('route5', 'visibility');
+  if(visibility ==='visible'){
+    map.setLayoutProperty('route5', 'visibility', 'none');
+  }else{
+    map.setLayoutProperty('route5', 'visibility', 'visible');
+  }}
+ });
+
+
+//移動2pink
+
+var n = 0;
+  document.getElementById('fly3').addEventListener('click', function(){
+  map.flyTo({
+   center: [ 139.6805253619494, 35.737895933815345 ],
+   zoom: 17.4,
+   padding: 40,
+   pitch: 0,
+   bearing: -80,
+   essential: true 
+   });
+   n = 0;
+   this.classList.add('disabled');
+   toggle1.style.display = 'none';
+   toggle2.style.display = 'none';
+   toggle3.style.display = 'none';
+   toggle4.style.display = 'none';
+   toggle5.style.display = 'none';
+
+ map.setPaintProperty('route1','line-color','#da6');
+ map.setPaintProperty('route2','line-color','#da6');
+ map.setPaintProperty('route3','line-color','#da6');
+ map.setPaintProperty('route4','line-color','#da6');
+ map.setPaintProperty('route5','line-color','#da6');
+
+ document.querySelector('.text-image img').style.display = 'block';
+ document.querySelector('.text-image .background').style.display = 'block';
+ document.querySelector('.text-image .picture').style.display = 'block';
+ document.querySelector('.text-image p').style.display = 'block';
+  });
+  
+  document.getElementById('fly1').addEventListener('click', function(){
+    if(n === 0){
+   map.flyTo({
+   center: corner0,
+   zoom: 17,
+   padding: 40,
+   pitch: 0,
+   essential: true
+   })
+   n = n + 1;
+  document.getElementById('instruction').textContent = '進行方向を選択してください'
+  popup1 = new mapboxgl.Marker(el1)
+   .setLngLat(corner0)
+   .addTo(map);
+  
+   document.getElementById('fly0').disabled = true;
+      document.getElementById('fly1').disabled = false;
+      document.getElementById('fly2').disabled = true;
+    } });
+
+if(document.getElementById('fly2').addEventListener('click', function(){
+  if (n === 1) {
+map.flyTo({
+ center: corner0,
+ zoom: 17,
+ padding: 40,
+ pitch: 0,
+ essential: true
+ });
+ n = n + 1;
+document.getElementById('instruction').textContent = '建物が倒壊していて通れませんでした'
+document.getElementById('picture').src = no1
+}
+}));
+
+document.getElementById('fly1').addEventListener('click', function () {
+  if (n === 2) {
+    map.flyTo({
+      center: corner1,
+      zoom: 17,
+      padding: 40,
+      pitch: 0,
+      essential: true
+    });
+    n = n + 1;
+    document.getElementById('instruction').textContent = '進行方向を選択してください';
+    document.getElementById('picture').src = pickiken;
+    popup1 = new mapboxgl.Marker(el1)
+      .setLngLat(corner1)
+      .addTo(map);
+
+    document.getElementById('fly0').disabled = true;
+    document.getElementById('fly1').disabled = false;
+    document.getElementById('fly2').disabled = true;
+  }
+});
+
+document.getElementById('fly1').addEventListener('click', function () {
+  if (n === 3) {
+    map.flyTo({
+      center: corner1,
+      zoom: 17,
+      padding: 40,
+      pitch: 0,
+      essential: true
+    });
+    n = n + 1;
+    document.getElementById('instruction').textContent = '進行方向を選択してください';
+    document.getElementById('picture').src = pickiken;
+    popup1 = new mapboxgl.Marker(el1)
+      .setLngLat(corner1)
+      .addTo(map);
+  
+   document.getElementById('fly0').disabled = false;
+      document.getElementById('fly1').disabled = true;
+      document.getElementById('fly2').disabled = true;
+    }
+   if (n === 4) {
+    map.flyTo({
+      center: corner1,
+      zoom: 17,
+      padding: 40,
+      pitch: 0,
+      essential: true
+    });
+    n = n + 1;
+    document.getElementById('instruction').textContent = '建物が倒壊していて通れませんでした';
+    document.getElementById('picture').src = no17;
+    popup1 = new mapboxgl.Marker(el1)
+      .setLngLat(corner1)
+      .addTo(map);
+    }});
+
+  document.getElementById('fly0').addEventListener('click', function(){
+    if (n === 5) {
+  map.flyTo({
+   center: corner1left,
+   zoom: 17,
+   padding: 40,
+   pitch: 0,
+   essential: true
+   });
+   n = n + 1;
+  document.getElementById('instruction').textContent = '進行方向を選択してください'
+  document.getElementById('picture').src = pickiken;
+  popup1 = new mapboxgl.Marker(el1)
+   .setLngLat(corner1left)
+   .addTo(map);
+  
+   document.getElementById('fly0').disabled = false;
+      document.getElementById('fly1').disabled = true;
+      document.getElementById('fly2').disabled = true;
+    } 
+  });
+  
+  document.getElementById('fly1').addEventListener('click', function(){
+    if (n === 6) {
+  map.flyTo({
+   center: corner2left,
+   zoom: 17,
+   padding: 40,
+   pitch: 0,
+   essential: true
+   });
+   n = n + 1;
+  document.getElementById('instruction').textContent = '進行方向を選択してください'
+  popup1 = new mapboxgl.Marker(el1)
+   .setLngLat(corner2left)
+   .addTo(map);
+  
+      document.getElementById('fly0').disabled = true;
+      document.getElementById('fly1').disabled = false;
+      document.getElementById('fly2').disabled = true;
+    } 
+  });
+  
+  document.getElementById('fly1').addEventListener('click', function(){
+    if (n === 7) {
+  map.flyTo({
+   center: corner3left,
+   zoom: 17,
+   padding: 40,
+   pitch: 0,
+   essential: true
+   });
+   n = n + 1;
+  document.getElementById('instruction').textContent = '進行方向を選択してください'
+  popup1 = new mapboxgl.Marker(el1)
+   .setLngLat(corner3left)
+   .addTo(map);
+   document.getElementById('fly0').disabled = true;
+      document.getElementById('fly1').disabled = true;
+      document.getElementById('fly2').disabled = false;
+    }
+
+    if (n === 8) {
+    map.flyTo({
+      center: corner3left,
+      zoom: 17,
+      padding: 40,
+      pitch: 0,
+      essential: true
+    });
+    n = n + 1;
+    document.getElementById('instruction').textContent = 'ブロック塀が崩れていて通れませんでした';
+    document.getElementById('picture').src = no11;
+    popup1 = new mapboxgl.Marker(el1)
+      .setLngLat(corner3left)
+      .addTo(map);
+    }});
+  
+  document.getElementById('fly2').addEventListener('click', function(){
+    if (n === 9) {
+  map.flyTo({
+   center: corner3,
+   zoom: 17,
+   padding: 40,
+   pitch: 0,
+   essential: true
+   });
+   n = n + 1;
+  document.getElementById('instruction').textContent = 'まっすぐ進んでください'
+  document.getElementById('picture').src = pickiken;
+  popup1 = new mapboxgl.Marker(el1)
+   .setLngLat(corner3)
+   .addTo(map);
+  
+      document.getElementById('fly0').disabled = true;
+      document.getElementById('fly1').disabled = false;
+      document.getElementById('fly2').disabled = true;
+    } 
+  });
+  
+  document.getElementById('fly1').addEventListener('click', function(){
+    if (n === 10) {
+  map.flyTo({
+   center: goal,
+   zoom: 17,
+   padding: 40,
+   pitch: 0,
+   essential: true
+   });
+   n = n + 1;
+  document.getElementById('instruction').textContent = '到着しました'
+  document.getElementById('picture').src = pictochaku;
+  fly4.style.display= 'block';
+  popup1 = new mapboxgl.Marker(el1)
+   .setLngLat(goal)
+   .addTo(map)
+   }
+   });
+
+
+ document.getElementById('fly3').addEventListener('click', function(){
+  currentPattern = getRandomPattern();  
+  if (currentPattern === 'ゲーム移動2pink') { setupPattern1(); } else { setupPattern2(); }
+});
+
+document.getElementById('fly4').addEventListener('click', function(){
+  location.reload();
+})
+
+//移動するアイコン
+ const popup1 = new mapboxgl.Popup({ offset: 75 });
+const el1 = document.createElement('div');
+el1.id = 'pic-human';
+new mapboxgl.Marker(el1)
+.setLngLat(start)
+.addTo(map);
+
+//ゴール
+const popup2 = new mapboxgl.Popup({ offset: 25 }).setText('避難場所');
+const el2 = document.createElement('div');
+new mapboxgl.Marker(el2)
+.setLngLat(goal)
+.setPopup(popup2)
+.addTo(map)
+.togglePopup();
+
+//位置情報
+map.addControl( new mapboxgl.GeolocateControl({
+    positionOptions: { enableHighAccuracy: true },
+    trackUserLocation: true,
+    showUserHeading: true
+  }));  
+const userTrack = new userLocationHistory();
+function onGeolocate(pos){
+  userTrack.addGeolocate(pos);
+  updateGeoLine(userTrack.getUserTrack());}
+
+</script>
+
+</div>
+</div>
+
+<div id="page2" class="page2">
+  <div id='form'></div>
+<form action="https://docs.google.com/forms/d/e/1FAIpQLSd53YvmAch9nraitfJsmLiDSHP8pux9WOJRXMTtAfT095vDgQ/formResponse" target="hidden_iframe" method="post" onsubmit="return test(this.wcheck.value)">
+  <p><input name="entry.19103375" placeholder="ポイント箇所の名前" value="ビル名/〇〇がある通り など" required></p>
+  <p><input name="entry.1570543345" placeholder="ポイント箇所の緯度・経度[ x,y ]" required></p>
+  <p>ポイント箇所の特徴</p>
+  <label><input type="radio" name="entry.1982180181" value="道路の幅が狭い" required> 道路の幅が狭い</label>
+  <label><input type="radio" name="entry.1982180181" value="古い建物" required> 古い建物</label><br>
+  <label><input type="radio" name="entry.1982180181" value="ブロック塀" required> ブロック塀</label>
+  <label><input type="radio" name="entry.1982180181" value="ガラス張りの建物" required> ガラス張りの建物</label><br>
+  <label><input type="radio" name="entry.1982180181" value="大きな看板" required> 大きな看板</label>
+  <label><input type="radio" name="entry.1982180181" value="河川" required> 河川</label><br>
+  <label><input type="radio" name="entry.1982180181" value="がけ・落石の恐れアリ" required> がけ・落石の恐れアリ</label>
+  <p><textarea name="entry.1392046843" placeholder="詳しい特徴" rows="10" cols="40" maxlength="400" id="wcheck" required></textarea></p>
+  <input type="submit" id="submitbutton" value="送信">
+  </form>
+  <iframe onload='if(submitted){window.location="";}' id=hidden_iframe name=hidden_iframe style=display:none></iframe>
+  
+  <script type="text/javascript">
+  var NGComments = ["死ね","バカ",".exe"]; // 簡易的なNGワードの設定
+  var regex = new RegExp(NGComments.join("|"));
+  function test(wcheck) {
+    if (wcheck.match(regex) != null) {
+      alert("ERROR: コメントにNGワードが含まれています");
+      return false;
+    }
+    document.getElementById("submitbutton").disabled = true;
+    textareas = document.getElementsByTagName('textarea');
+    for(var i=0 ;i < textareas.length ;i ++ ){
+      textareas[i].value = textareas[i].value.replace( /</g ,'&lt;' );
+    }
+    inputs = document.getElementsByTagName('input');
+    for(var i=0 ;i < inputs.length ;i ++ ){
+      inputs[i].value = inputs[i].value.replace( /</g ,'&lt;' );
+    }
+    return submitted=!0;
+  }
+
+  </script>
+
+<script>
+d3.csv("https://docs.google.com/spreadsheets/d/1aPchT8wUcsvMzjnvjRqk3DWVjdBwIBdJRMBq5Q6rCbM/export?format=csv&range=A3:D", function(error, data){
+	var text = "";
+	for(var i=0; i<data.length; i++){
+		text += i+1 + " ポイント箇所の名前: <data[i].Name>" +  data[i].Timestamp + "<pre>" + data[i].latlon +"</pre>" + data[i].Feature +"<pre>" + data[i].etc + "</pre>";
+	}
+	d3.select("#form").html(text);
+});
+
+</script>
+
+</div>
+</body>
+</html>
